@@ -199,7 +199,7 @@ export class RSocketSimulationConnection {
       this.joinToGame(this.nickname);
       this.addPlayer(this.nickname);
       console.error('Polaczylem sie');
-    }, 2000);
+    }, 500);
 
     let timesRun = 0;
     let strategy = true;
@@ -229,7 +229,7 @@ export class RSocketSimulationConnection {
       this.sub.unsubscribe();
       console.error('Zakonczono komunikacje z serverem');
       this.disconnect();
-    }, 40000);
+    }, 55000);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
