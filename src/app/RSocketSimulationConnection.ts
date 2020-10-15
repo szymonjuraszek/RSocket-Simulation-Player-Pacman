@@ -123,7 +123,7 @@ export class RSocketSimulationConnection {
             console.log(error);
           },
           onNext: playerToUpdate => {
-            if (this.nickname === 'qwerty06') {
+            if (this.nickname === 'remote01' && playerToUpdate.data.nickname.match('remote*')) {
               const parsedPlayer: Player = playerToUpdate.data;
               const responseTimeInMillis = new Date().getTime() - playerToUpdate.data.requestTimestamp;
               this.measurementService.addMeasurementResponse(parsedPlayer.nickname, responseTimeInMillis,
@@ -228,7 +228,7 @@ export class RSocketSimulationConnection {
       this.sub.unsubscribe();
       console.error('Zakonczono komunikacje z serverem');
       this.disconnect();
-    }, 55000);
+    }, 100000);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
