@@ -38,5 +38,21 @@
     "score": 0,
     "stepDirection": "HOR",
     "version": 0
+  },
+  {
+    "nickname": "qwerty13",
+    "positionX": 1400,
+    "positionY": 592,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0
+  },
+  {
+    "nickname": "qwerty14",
+    "positionX": 1400,
+    "positionY": 528,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0
   }
 ]
