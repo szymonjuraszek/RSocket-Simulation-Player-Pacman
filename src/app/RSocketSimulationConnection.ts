@@ -59,7 +59,7 @@ export class RSocketSimulationConnection {
         }
       },
       transport: new RSocketWebSocketClient({
-        url: 'ws://83.229.84.77:8080/rsocket'
+        url: 'wss://83.229.84.77:8080/rsocket'
       })
     });
 
