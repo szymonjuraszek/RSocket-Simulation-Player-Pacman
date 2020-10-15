@@ -59,7 +59,7 @@ export class RSocketSimulationConnection {
         }
       },
       transport: new RSocketWebSocketClient({
-        url: 'ws://localhost:8080/rsocket'
+        url: 'ws://83.229.84.77:8080/rsocket'
       })
     });
 
@@ -129,7 +129,7 @@ export class RSocketSimulationConnection {
               const responseTimeInMillis = new Date().getTime() - playerToUpdate.data.requestTimestamp;
               this.measurementService.addMeasurementResponse(parsedPlayer.nickname, responseTimeInMillis,
                 Math.ceil((playerToUpdate.data.requestTimestamp - this.timeForStartCommunication) / 1000),
-                parsedPlayer.version, playerToUpdate.data.contentLength);
+                parsedPlayer.version, playerToUpdate.data.contentLength, playerToUpdate.data.requestTimestamp);
             }
           },
           onSubscribe: subscription => {
