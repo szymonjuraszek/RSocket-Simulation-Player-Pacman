@@ -123,7 +123,7 @@ export class RSocketSimulationConnection {
             console.log(error);
           },
           onNext: playerToUpdate => {
-            if (this.nickname === 'qwerty01') {
+            if (this.nickname === 'qwerty06') {
               const parsedPlayer: Player = playerToUpdate.data;
               const responseTimeInMillis = new Date().getTime() - playerToUpdate.data.requestTimestamp;
               this.measurementService.addMeasurementResponse(parsedPlayer.nickname, responseTimeInMillis,
