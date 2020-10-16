@@ -7,6 +7,7 @@ import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {RSocketClient} from 'rsocket-core';
 import {IdentitySerializer, JsonSerializer} from 'rsocket-core';
 import {Player} from './model/Player';
+import {STOP_SENDING_TIMEOUT, URL_RSOCKET} from '../../globalConfig';
 
 export class RSocketSimulationConnection {
   private additionalData = this.randomString(1000, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
@@ -59,7 +60,7 @@ export class RSocketSimulationConnection {
         }
       },
       transport: new RSocketWebSocketClient({
-        url: 'ws://83.229.84.77:8080/rsocket'})
+        url: URL_RSOCKET})
     });
 
     this.client.connect().subscribe({
@@ -198,7 +199,7 @@ export class RSocketSimulationConnection {
       this.joinToGame(this.nickname);
       this.addPlayer(this.nickname);
       console.error('Polaczylem sie');
-    }, 500);
+    }, timeToSend - 1000);
 
     let timesRun = 0;
     let strategy = true;
@@ -228,7 +229,7 @@ export class RSocketSimulationConnection {
       this.sub.unsubscribe();
       console.error('Zakonczono komunikacje z serverem');
       this.disconnect();
-    }, 100000);
+    }, STOP_SENDING_TIMEOUT);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
