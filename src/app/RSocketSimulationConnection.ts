@@ -148,6 +148,13 @@ export class RSocketSimulationConnection {
             console.log(error);
           },
           onNext: playerToUpdate => {
+            if (this.nickname === 'remote01' && playerToUpdate.data.nickname.match('remote*')) {
+              const parsedPlayer: Player = playerToUpdate.data;
+              const responseTimeInMillis = new Date().getTime() - playerToUpdate.data.requestTimestamp;
+              this.measurementService.addMeasurementResponse(parsedPlayer.nickname, responseTimeInMillis,
+                Math.ceil((playerToUpdate.data.requestTimestamp - this.timeForStartCommunication) / 1000),
+                parsedPlayer.version, playerToUpdate.data.contentLength, playerToUpdate.data.requestTimestamp);
+            }
           },
           onSubscribe: subscription => {
             console.error('========= Subskrybuje specificPlayerUpdate ============');
