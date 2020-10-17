@@ -57,7 +57,7 @@
   },
   {
     "nickname": "remote08",
-    "positionX": 700,
+    "positionX": 1000,
     "positionY": 400,
     "score": 0,
     "stepDirection": "HOR",
@@ -65,16 +65,8 @@
   },
   {
     "nickname": "remote09",
-    "positionX": 700,
+    "positionX": 1000,
     "positionY": 592,
-    "score": 0,
-    "stepDirection": "HOR",
-    "version": 0
-  },
-  {
-    "nickname": "remote10",
-    "positionX": 700,
-    "positionY": 528,
     "score": 0,
     "stepDirection": "HOR",
     "version": 0

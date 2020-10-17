@@ -210,7 +210,7 @@ export class RSocketSimulationConnection {
       const sender = interval(21);
       this.sub = sender.subscribe(() => {
         timesRun += 1;
-        if (timesRun === 300) {
+        if (timesRun === 200) {
           timesRun = 0;
           strategy = !strategy;
         }

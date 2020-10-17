@@ -21,12 +21,10 @@ export class AppComponent {
     this.measurementService = new MeasurementService();
     this.downloadService = new DownloadService(this.measurementService);
 
-    setTimeout(() => {
-      for (let i = 0; i < 10; i++) {
-        this.simulationConnection[i] = new RSocketSimulationConnection(examplePlayers[i].nickname, this.measurementService);
-        this.simulationConnection[i].initializeConnection(examplePlayers[i], 5000 + 10000 * i);
-      }
-    }, 1000);
+    for (let i = 0; i < 9; i++) {
+      this.simulationConnection[i] = new RSocketSimulationConnection(examplePlayers[i].nickname, this.measurementService);
+      this.simulationConnection[i].initializeConnection(examplePlayers[i], 6000 + 10000 * i);
+    }
   }
 
   downloadFile(): void {
