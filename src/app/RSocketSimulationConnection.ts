@@ -200,7 +200,7 @@ export class RSocketSimulationConnection {
       this.joinToGame(this.nickname);
       this.addPlayer(this.nickname);
       console.error('Polaczylem sie');
-    }, timeToSend - 1000);
+    }, timeToSend - 500);
 
     let timesRun = 0;
     let strategy = true;
