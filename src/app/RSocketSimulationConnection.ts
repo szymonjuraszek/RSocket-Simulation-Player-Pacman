@@ -207,7 +207,7 @@ export class RSocketSimulationConnection {
     // data.additionalData = this.additionalData;
     setTimeout(() => {
       console.error('Zaczynam wysylac dane.');
-      const sender = interval(20);
+      const sender = interval(21);
       this.sub = sender.subscribe(() => {
         timesRun += 1;
         if (timesRun === 300) {
