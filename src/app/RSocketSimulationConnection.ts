@@ -195,6 +195,7 @@ export class RSocketSimulationConnection {
       }
     });
 
+    this.timeForStartCommunication = new Date().getTime();
     setTimeout(() => {
       this.joinToGame(this.nickname);
       this.addPlayer(this.nickname);
@@ -206,7 +207,6 @@ export class RSocketSimulationConnection {
     // data.additionalData = this.additionalData;
     setTimeout(() => {
       console.error('Zaczynam wysylac dane.');
-      this.timeForStartCommunication = new Date().getTime();
       const sender = interval(20);
       this.sub = sender.subscribe(() => {
         timesRun += 1;
