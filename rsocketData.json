@@ -70,5 +70,13 @@
     "score": 0,
     "stepDirection": "HOR",
     "version": 0
+  },
+  {
+    "nickname": "remote10",
+    "positionX": 1264,
+    "positionY": 592,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0
   }
 ]
