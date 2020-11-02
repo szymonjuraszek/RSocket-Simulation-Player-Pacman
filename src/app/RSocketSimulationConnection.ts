@@ -7,11 +7,12 @@ import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {RSocketClient} from 'rsocket-core';
 import {IdentitySerializer, JsonSerializer} from 'rsocket-core';
 import {Player} from './model/Player';
-import {STOP_SENDING_TIMEOUT, URL_RSOCKET} from '../../globalConfig';
+import {MESSAGE_FREQUENCY, SIZE_OF_ADDITIONAL_DATA, STOP_SENDING_TIMEOUT, URL_RSOCKET} from '../../globalConfig';
+import {AdditionalData} from './model/AdditionalData';
 
 export class RSocketSimulationConnection {
-  private additionalData = this.randomString(1000, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-  private variable = this.makeId(30000);
+  private additionalData = this.randomString(50, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  private arrayWithAdditionalData: Array<AdditionalData> = new Array<AdditionalData>(SIZE_OF_ADDITIONAL_DATA);
 
   private sub: Subscription;
 
@@ -60,7 +61,8 @@ export class RSocketSimulationConnection {
         }
       },
       transport: new RSocketWebSocketClient({
-        url: URL_RSOCKET})
+        url: URL_RSOCKET
+      })
     });
 
     this.client.connect().subscribe({
@@ -211,10 +213,13 @@ export class RSocketSimulationConnection {
 
     let timesRun = 0;
     let strategy = true;
-    // data.additionalData = this.additionalData;
+    for (let i = 0; i < this.arrayWithAdditionalData.length; i++) {
+      this.arrayWithAdditionalData[i] = new AdditionalData(11111, 22222, 33333, this.additionalData);
+    }
+    data.additionalData = this.additionalData;
+
     setTimeout(() => {
-      console.error('Zaczynam wysylac dane.');
-      const sender = interval(15);
+      const sender = interval(MESSAGE_FREQUENCY);
       this.sub = sender.subscribe(() => {
         timesRun += 1;
         if (timesRun === 200) {
