@@ -1,17 +1,15 @@
-import {Client} from '@stomp/stompjs';
-import {BehaviorSubject, interval, Subscription} from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 import {MeasurementService} from './measurement/MeasurementService';
 import {IFormatter} from './formatter/IFormatter';
 import {JsonFormatter} from './formatter/JsonFormatter';
 import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {RSocketClient} from 'rsocket-core';
 import {IdentitySerializer, JsonSerializer} from 'rsocket-core';
-import {Player} from './model/Player';
 import {MESSAGE_FREQUENCY, SIZE_OF_ADDITIONAL_DATA, STOP_SENDING_TIMEOUT, URL_RSOCKET} from '../../globalConfig';
 import {AdditionalData} from './model/AdditionalData';
+import {Player} from './model/Player';
 
 export class RSocketSimulationConnection {
-  private additionalData = this.randomString(50, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
   private arrayWithAdditionalData: Array<AdditionalData> = new Array<AdditionalData>(SIZE_OF_ADDITIONAL_DATA);
 
   private sub: Subscription;
@@ -213,10 +211,11 @@ export class RSocketSimulationConnection {
 
     let timesRun = 0;
     let strategy = true;
-    for (let i = 0; i < this.arrayWithAdditionalData.length; i++) {
-      this.arrayWithAdditionalData[i] = new AdditionalData(11111, 22222, 33333, this.additionalData);
-    }
-    data.additionalData = this.additionalData;
+    // for (let i = 0; i < 5; i++) {
+    //   this.arrayWithAdditionalData[i] = new AdditionalData(11111, 22222, 33333,
+    //     this.randomString(20, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+    // }
+    // data.additionalData = this.arrayWithAdditionalData;
 
     setTimeout(() => {
       const sender = interval(MESSAGE_FREQUENCY);
