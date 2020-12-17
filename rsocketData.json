@@ -1,42 +1,92 @@
 [
   {
-    "nickname": "qwerty06",
+    "nickname": "local01",
     "positionX": 1264,
-    "positionY": 656,
+    "positionY": 976,
     "score": 0,
     "stepDirection": "HOR",
-    "version": 0
+    "version": 0,
+    "additionalData": []
   },
   {
-    "nickname": "qwerty07",
+    "nickname": "local02",
     "positionX": 1264,
-    "positionY": 592,
+    "positionY": 976,
     "score": 0,
     "stepDirection": "HOR",
-    "version": 0
+    "version": 0,
+    "additionalData": []
   },
   {
-    "nickname": "qwerty08",
+    "nickname": "local03",
     "positionX": 1264,
-    "positionY": 528,
+    "positionY": 848,
     "score": 0,
     "stepDirection": "HOR",
-    "version": 0
+    "version": 0,
+    "additionalData": []
   },
   {
-    "nickname": "qwerty09",
+    "nickname": "remote04",
     "positionX": 1264,
-    "positionY": 464,
+    "positionY": 784,
     "score": 0,
     "stepDirection": "HOR",
-    "version": 0
+    "version": 0,
+    "additionalData": []
   },
   {
-    "nickname": "qwerty10",
+    "nickname": "remote05",
     "positionX": 1264,
+    "positionY": 720,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0,
+    "additionalData": []
+  },
+  {
+    "nickname": "remote06",
+    "positionX": 1400,
     "positionY": 400,
     "score": 0,
     "stepDirection": "HOR",
-    "version": 0
+    "version": 0,
+    "additionalData": []
+  },
+  {
+    "nickname": "qwert07",
+    "positionX": 1400,
+    "positionY": 464,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0,
+    "additionalData": []
+  },
+  {
+    "nickname": "qwert08",
+    "positionX": 1400,
+    "positionY": 528,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0,
+    "additionalData": []
+  },
+  {
+    "nickname": "qwert09",
+    "positionX": 1400,
+    "positionY": 592,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0,
+    "additionalData": []
+  },
+  {
+    "nickname": "qwert10",
+    "positionX": 1400,
+    "positionY": 656,
+    "score": 0,
+    "stepDirection": "HOR",
+    "version": 0,
+    "additionalData": []
   }
 ]

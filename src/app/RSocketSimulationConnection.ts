@@ -1,18 +1,18 @@
-import {Client} from '@stomp/stompjs';
-import {BehaviorSubject, interval, Subscription} from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 import {MeasurementService} from './measurement/MeasurementService';
 import {IFormatter} from './formatter/IFormatter';
 import {JsonFormatter} from './formatter/JsonFormatter';
 import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {RSocketClient} from 'rsocket-core';
 import {IdentitySerializer, JsonSerializer} from 'rsocket-core';
+import {STOP_SENDING_TIMEOUT, URL_RSOCKET} from '../../globalConfig';
 import {Player} from './model/Player';
+import {environment} from '../environments/environment';
 
 export class RSocketSimulationConnection {
-  private additionalData = this.randomString(1000, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-  private variable = this.makeId(30000);
-
-  private sub: Subscription;
+  private readonly speed;
+  private readonly nickname;
+  private timeForStartCommunication;
 
   private coinRefreshSub: any;
   private coinGetSub: any;
@@ -22,17 +22,18 @@ export class RSocketSimulationConnection {
   private playerUpdateSub: any;
   private playerUpdateUserSub: any;
 
-  private readonly nickname;
+  private sub: Subscription;
+
   private measurementService: MeasurementService;
-  private timeForStartCommunication;
   private formatter: IFormatter;
   private client: RSocketClient;
   private rsocketObject: RSocketWebSocketClient;
 
-  constructor(nickname, measurementService) {
+  constructor(nickname, measurementService, speed) {
     this.nickname = nickname;
     this.measurementService = measurementService;
     this.setFormatter(new JsonFormatter());
+    this.speed = speed;
   }
 
   setFormatter(formatter): any {
@@ -59,7 +60,8 @@ export class RSocketSimulationConnection {
         }
       },
       transport: new RSocketWebSocketClient({
-        url: 'ws://83.229.84.77:8080/rsocket'})
+        url: URL_RSOCKET
+      })
     });
 
     this.client.connect().subscribe({
@@ -123,13 +125,13 @@ export class RSocketSimulationConnection {
             console.log(error);
           },
           onNext: playerToUpdate => {
-            if (this.nickname === 'qwerty01') {
-              const parsedPlayer: Player = playerToUpdate.data;
-              const responseTimeInMillis = new Date().getTime() - playerToUpdate.data.requestTimestamp;
-              this.measurementService.addMeasurementResponse(parsedPlayer.nickname, responseTimeInMillis,
-                Math.ceil((playerToUpdate.data.requestTimestamp - this.timeForStartCommunication) / 1000),
-                parsedPlayer.version, playerToUpdate.data.contentLength, playerToUpdate.data.requestTimestamp);
-            }
+            const parsedPlayer: Player = playerToUpdate.data;
+            this.saveMeasurement(
+              parsedPlayer.nickname,
+              playerToUpdate.data.requestTimestamp,
+              parsedPlayer.version,
+              playerToUpdate.data.contentLength
+            );
           },
           onSubscribe: subscription => {
             console.error('========= Subskrybuje playerUpdate ============');
@@ -147,6 +149,13 @@ export class RSocketSimulationConnection {
             console.log(error);
           },
           onNext: playerToUpdate => {
+            const parsedPlayer: Player = playerToUpdate.data;
+            this.saveMeasurement(
+              parsedPlayer.nickname,
+              playerToUpdate.data.requestTimestamp,
+              parsedPlayer.version,
+              playerToUpdate.data.contentLength
+            );
           },
           onSubscribe: subscription => {
             console.error('========= Subskrybuje specificPlayerUpdate ============');
@@ -194,22 +203,21 @@ export class RSocketSimulationConnection {
       }
     });
 
+    this.timeForStartCommunication = new Date().getTime();
     setTimeout(() => {
       this.joinToGame(this.nickname);
       this.addPlayer(this.nickname);
       console.error('Polaczylem sie');
-    }, 500);
+    }, timeToSend - 500);
 
     let timesRun = 0;
     let strategy = true;
-    // data.additionalData = this.additionalData;
+
     setTimeout(() => {
-      console.error('Zaczynam wysylac dane.');
-      this.timeForStartCommunication = new Date().getTime();
-      const sender = interval(20);
+      const sender = interval(this.speed);
       this.sub = sender.subscribe(() => {
         timesRun += 1;
-        if (timesRun === 300) {
+        if (timesRun === 200) {
           timesRun = 0;
           strategy = !strategy;
         }
@@ -228,7 +236,7 @@ export class RSocketSimulationConnection {
       this.sub.unsubscribe();
       console.error('Zakonczono komunikacje z serverem');
       this.disconnect();
-    }, 55000);
+    }, STOP_SENDING_TIMEOUT);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,21 +289,17 @@ export class RSocketSimulationConnection {
     });
   }
 
-  makeId(length): string {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  saveMeasurement(nickname, requestTimestamp, version, contentLength): void {
+    if (environment.whichPlayer === 3) {
+      if (nickname.match('remote*')) {
+        const responseTimeInMillis = new Date().getTime() - requestTimestamp;
+        this.measurementService.addMeasurementResponse(nickname, responseTimeInMillis,
+          Math.ceil((requestTimestamp - this.timeForStartCommunication) / 1000),
+          version,
+          contentLength,
+          requestTimestamp
+        );
+      }
     }
-    return result;
-  }
-
-  randomString(length, chars): string {
-    let result = '';
-    for (let i = length; i > 0; --i) {
-      result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
   }
 }
