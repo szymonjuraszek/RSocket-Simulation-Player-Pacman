@@ -290,8 +290,8 @@ export class RSocketSimulationConnection {
   }
 
   saveMeasurement(nickname, requestTimestamp, version, contentLength): void {
-    if (environment.whichPlayer === 3) {
-      if (nickname.match('remote*')) {
+    if (environment.whichPlayer === 6) {
+      if (nickname.match('qwert*')) {
         const responseTimeInMillis = new Date().getTime() - requestTimestamp;
         this.measurementService.addMeasurementResponse(nickname, responseTimeInMillis,
           Math.ceil((requestTimestamp - this.timeForStartCommunication) / 1000),
